@@ -1,3 +1,5 @@
+export const unstable_instant = { prefetch: "static" as const };
+
 import React from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
@@ -128,6 +130,13 @@ export default function Direitos() {
               </p>
               <p>
                 <strong>Minimização de Dados:</strong> Solicitamos apenas as informações estritamente necessárias para prestar orientações no chatbot e na biblioteca. Você possui o direito de consultar seus dados armazenados e requisitar a exclusão definitiva a qualquer momento através da nossa Ouvidoria.
+              </p>
+            </div>
+
+            <div id="termos" className="text-sm text-slate-600 space-y-4 leading-relaxed border-t border-slate-100 pt-6 mt-6">
+              <h3 className="font-bold text-slate-900 text-base">Termos e Condições de Uso</h3>
+              <p className="text-xs text-slate-500">
+                Ao utilizar o Portal Mães Atípicas, você concorda que as informações fornecidas e as interações com a Assistente IA possuem fins exclusivamente informativos e educativos, não substituindo o diagnóstico ou tratamento médico especializado. Todo o conteúdo disponível é de livre acesso e gratuito.
               </p>
             </div>
           </section>

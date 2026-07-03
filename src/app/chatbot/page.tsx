@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Logo from "@/components/icons/Logo";
@@ -97,6 +98,38 @@ export default function Chatbot() {
     }, 1200);
   };
 
+  const renderMessageText = (text: string) => {
+    const regex = /\[([^\]]+)\]\(([^)]+)\)/g;
+    const parts = [];
+    let lastIndex = 0;
+    let match;
+
+    while ((match = regex.exec(text)) !== null) {
+      const matchIndex = match.index;
+      if (matchIndex > lastIndex) {
+        parts.push(text.substring(lastIndex, matchIndex));
+      }
+      const linkText = match[1];
+      const linkUrl = match[2];
+      parts.push(
+        <Link 
+          key={matchIndex} 
+          href={linkUrl} 
+          className="underline font-bold hover:text-brand-blue-hover text-brand-blue cursor-pointer"
+        >
+          {linkText}
+        </Link>
+      );
+      lastIndex = regex.lastIndex;
+    }
+
+    if (lastIndex < text.length) {
+      parts.push(text.substring(lastIndex));
+    }
+
+    return parts.length > 0 ? parts : text;
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-slate-50">
       <Navbar />
@@ -117,9 +150,12 @@ export default function Chatbot() {
             <div className="lg:col-span-4 flex flex-col gap-6 text-left">
               <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
                 <h2 className="text-lg font-bold text-slate-800 border-b border-slate-100 pb-3 flex items-center gap-2">
-                  <span>💡</span> Perguntas Rápidas
+                  <svg className="w-5 h-5 text-brand-yellow shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                  </svg>
+                  Perguntas Rápidas
                 </h2>
-                <p className="text-xs text-slate-500 mt-2 leading-relaxed">
+                <p className="text-xs text-slate-550 mt-2 leading-relaxed">
                   Clique em qualquer um dos tópicos abaixo para simular a resposta imediata da nossa assistente virtual de apoio:
                 </p>
                 <div className="flex flex-col gap-3 mt-4">
@@ -128,7 +164,7 @@ export default function Chatbot() {
                       key={idx}
                       disabled={isTyping}
                       onClick={() => handleQuickQuestionClick(item.q, item.a)}
-                      className="text-left text-xs bg-slate-50 hover:bg-brand-blue/5 border border-slate-200 hover:border-brand-blue/30 text-slate-700 hover:text-brand-blue py-3 px-4 rounded-xl transition-all font-semibold leading-relaxed disabled:opacity-55"
+                      className="text-left text-xs bg-slate-50 hover:bg-brand-blue/5 border border-slate-200 hover:border-brand-blue/30 text-slate-750 hover:text-brand-blue py-3 px-4 rounded-xl transition-all font-semibold leading-relaxed disabled:opacity-55 cursor-pointer"
                     >
                       {item.q}
                     </button>
@@ -137,9 +173,12 @@ export default function Chatbot() {
               </div>
 
               {/* Disclaimer de Segurança */}
-              <div className="bg-slate-900 text-white rounded-3xl p-6 border-b-4 border-brand-red flex flex-col gap-3">
+              <div className="bg-slate-900 text-white rounded-3xl p-6 border-b-4 border-brand-red flex flex-col gap-3 shadow-sm">
                 <h3 className="font-bold text-sm flex items-center gap-2">
-                  <span>⚠️</span> Aviso Importante
+                  <svg className="w-5 h-5 text-brand-red shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                  Aviso Importante
                 </h3>
                 <p className="text-xs text-slate-300 leading-relaxed">
                   Esta inteligência artificial serve como apoio educativo e curadoria dos materiais do portal. Ela não substitui tratamentos, intervenções terapêuticas ou consultas médicas individuais de neuropediatras e psicólogos.
@@ -177,7 +216,7 @@ export default function Chatbot() {
                             : "bg-white text-slate-800 border border-slate-150 rounded-bl-none"
                         }`}
                       >
-                        <p>{msg.text}</p>
+                        <div className="whitespace-pre-line">{renderMessageText(msg.text)}</div>
                       </div>
                     </div>
                   ))}
@@ -226,5 +265,3 @@ export default function Chatbot() {
     </div>
   );
 }
-
-import Link from "next/link";

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import Logo from "./icons/Logo";
@@ -9,6 +9,48 @@ export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
+  const [fontScale, setFontScale] = useState(100);
+  const [highContrast, setHighContrast] = useState(false);
+
+  // Efeito para sincronizar as preferências de acessibilidade
+  useEffect(() => {
+    const savedScale = localStorage.getItem("maes-atipicas-font-scale");
+    const savedContrast = localStorage.getItem("maes-atipicas-high-contrast") === "true";
+
+    // Deferido para o próximo tick para evitar setState síncrono no efeito
+    setTimeout(() => {
+      if (savedScale) {
+        const scale = parseInt(savedScale, 10);
+        setFontScale(scale);
+        document.documentElement.style.fontSize = `${scale}%`;
+      }
+      if (savedContrast) {
+        setHighContrast(true);
+        document.documentElement.classList.add("high-contrast");
+      }
+    }, 0);
+  }, []);
+
+  const changeFontScale = (increment: number) => {
+    let newScale = fontScale + increment;
+    if (newScale < 80) newScale = 80;
+    if (newScale > 140) newScale = 140;
+
+    setFontScale(newScale);
+    localStorage.setItem("maes-atipicas-font-scale", newScale.toString());
+    document.documentElement.style.fontSize = `${newScale}%`;
+  };
+
+  const toggleHighContrast = () => {
+    const newVal = !highContrast;
+    setHighContrast(newVal);
+    localStorage.setItem("maes-atipicas-high-contrast", newVal.toString());
+    if (newVal) {
+      document.documentElement.classList.add("high-contrast");
+    } else {
+      document.documentElement.classList.remove("high-contrast");
+    }
+  };
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,25 +79,25 @@ export default function Navbar() {
           <div className="flex items-center gap-4">
             <span className="font-semibold uppercase tracking-wider text-slate-400">Acessibilidade:</span>
             <button 
-              onClick={() => alert("Função de aumentar fonte ativada (Simulado)")}
-              className="hover:text-white transition-colors focus:outline-none"
+              onClick={() => changeFontScale(10)}
+              className="hover:text-white transition-colors focus:outline-none cursor-pointer font-bold px-1"
               aria-label="Aumentar tamanho do texto"
             >
               A+
             </button>
             <button 
-              onClick={() => alert("Função de diminuir fonte ativada (Simulado)")}
-              className="hover:text-white transition-colors focus:outline-none"
+              onClick={() => changeFontScale(-10)}
+              className="hover:text-white transition-colors focus:outline-none cursor-pointer font-bold px-1"
               aria-label="Diminuir tamanho do texto"
             >
               A-
             </button>
             <button 
-              onClick={() => alert("Alto Contraste ativado (Simulado)")}
-              className="hover:text-white transition-colors focus:outline-none"
+              onClick={toggleHighContrast}
+              className="hover:text-white transition-colors focus:outline-none cursor-pointer font-bold px-1 flex items-center gap-1"
               aria-label="Ativar alto contraste"
             >
-              ◐ Alto Contraste
+              <span>◐</span> Alto Contraste
             </button>
           </div>
 

@@ -31,3 +31,73 @@ body {
   line-height: 1.6;
 }
 
+/* ==========================================================================
+   ACESSIVILIDADE: Alto Contraste
+   ========================================================================== */
+html.high-contrast {
+  --background: #000000;
+  --foreground: #ffffff;
+}
+
+.high-contrast body,
+.high-contrast header,
+.high-contrast footer,
+.high-contrast main,
+.high-contrast nav,
+.high-contrast section,
+.high-contrast div,
+.high-contrast article,
+.high-contrast select,
+.high-contrast option,
+.high-contrast input,
+.high-contrast textarea {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+.high-contrast button,
+.high-contrast a,
+.high-contrast span,
+.high-contrast p,
+.high-contrast h1,
+.high-contrast h2,
+.high-contrast h3,
+.high-contrast h4 {
+  color: #ffffff !important;
+}
+
+.high-contrast a,
+.high-contrast button:not([disabled]) {
+  color: #fdd835 !important; /* Amarelo de contraste padrão */
+  text-decoration: underline;
+}
+
+.high-contrast a:hover,
+.high-contrast button:not([disabled]):hover {
+  color: #ffffff !important;
+  background-color: #1a1a1a !important;
+}
+
+.high-contrast input,
+.high-contrast textarea,
+.high-contrast select {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+}
+
+.high-contrast input:focus,
+.high-contrast textarea:focus,
+.high-contrast select:focus {
+  outline: 2px solid #fdd835 !important;
+}
+
+.high-contrast svg {
+  stroke: #ffffff !important;
+  fill: none !important;
+}
+
+

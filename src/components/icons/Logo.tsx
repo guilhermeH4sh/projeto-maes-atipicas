@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 interface LogoProps {
   className?: string;
@@ -11,13 +12,14 @@ interface LogoProps {
  */
 export default function Logo({ className = "", size = 48 }: LogoProps) {
   return (
-    <img
+    <Image
       src="/images/logo.png"
       alt="Logo Mães Atípicas"
       width={size}
       height={size}
       className={`object-contain select-none shrink-0 ${className}`}
       style={{ width: size, height: size }}
+      priority
     />
   );
 }
