@@ -249,16 +249,16 @@ function BibliotecaContent() {
       {/* Header */}
       <div className="border-b border-slate-200 pb-6 mb-10 text-left flex flex-col md:flex-row md:items-end md:justify-between gap-6">
         <div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          <h1 data-animate="text-reveal" className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
             Biblioteca Digital de Apoio
           </h1>
-          <p className="text-sm sm:text-base text-slate-600 mt-2">
+          <p data-animate="fade-in" className="text-sm sm:text-base text-slate-600 mt-2">
             Acesse materiais educativos validados por médicos e terapeutas em linguagem simples.
           </p>
         </div>
 
         {/* Input de Busca na Biblioteca */}
-        <div className="w-full max-w-xs shrink-0">
+        <div data-animate="fade-in" className="w-full max-w-xs shrink-0">
           <label htmlFor="library-search" className="sr-only">Filtrar por palavra</label>
           <input
             id="library-search"
@@ -292,11 +292,11 @@ function BibliotecaContent() {
 
       {/* Lista de Itens Filtrados */}
       {filteredItems.length > 0 ? (
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-16">
+        <div data-animate="stagger-cards" className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-16">
           {filteredItems.map((item) => (
             <div
               key={item.id}
-              className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md hover:border-slate-300 transition-all text-left"
+              className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between hover-lift text-left"
             >
               <div className="flex flex-col gap-4">
                 {/* Cabeçalho do Card */}

@@ -147,7 +147,7 @@ export default function Chatbot() {
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
             
             {/* Esquerda: Painel de Perguntas Rápidas (4/12 largura) */}
-            <div className="lg:col-span-4 flex flex-col gap-6 text-left">
+            <div data-animate="fade-up" className="lg:col-span-4 flex flex-col gap-6 text-left">
               <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
                 <h2 className="text-lg font-bold text-slate-800 border-b border-slate-100 pb-3 flex items-center gap-2">
                   <svg className="w-5 h-5 text-brand-yellow shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -164,7 +164,7 @@ export default function Chatbot() {
                       key={idx}
                       disabled={isTyping}
                       onClick={() => handleQuickQuestionClick(item.q, item.a)}
-                      className="text-left text-xs bg-slate-50 hover:bg-brand-blue/5 border border-slate-200 hover:border-brand-blue/30 text-slate-750 hover:text-brand-blue py-3 px-4 rounded-xl transition-all font-semibold leading-relaxed disabled:opacity-55 cursor-pointer"
+                      className="text-left text-xs bg-slate-50 hover:bg-brand-blue/5 border border-slate-200 hover:border-brand-blue/30 text-slate-750 hover:text-brand-blue py-3 px-4 rounded-xl transition-all font-semibold leading-relaxed disabled:opacity-55 cursor-pointer hover-lift"
                     >
                       {item.q}
                     </button>
@@ -187,7 +187,7 @@ export default function Chatbot() {
             </div>
 
             {/* Direita: Chat em tela cheia (8/12 largura) */}
-            <div className="lg:col-span-8 flex flex-col">
+            <div data-animate="fade-up" className="lg:col-span-8 flex flex-col">
               <div className="bg-white rounded-3xl shadow-sm border border-slate-200 flex flex-col h-[580px] overflow-hidden">
                 
                 {/* Header do Chat */}

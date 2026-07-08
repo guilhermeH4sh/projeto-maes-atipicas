@@ -71,7 +71,7 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="w-full flex flex-col z-50 shadow-md">
+    <header className="w-full flex flex-col z-50 sticky top-0 shadow-md">
       {/* 1. BARRA SUPERIOR DE UTILITÁRIOS E ACESSIBILIDADE (Estilo Portal USP) */}
       <div className="w-full bg-slate-900 text-slate-300 py-2 border-b border-slate-800 text-xs">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col gap-2 sm:flex-row items-center justify-between">

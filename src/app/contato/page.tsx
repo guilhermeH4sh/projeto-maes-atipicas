@@ -51,17 +51,17 @@ export default function Contato() {
 
           {/* Cabeçalho */}
           <div className="border-b border-slate-200 pb-6 mb-10">
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            <h1 data-animate="text-reveal" className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
               Fale com o Portal Mães Atípicas
             </h1>
-            <p className="text-base text-slate-650 mt-3 leading-relaxed">
+            <p data-animate="fade-in" className="text-base text-slate-650 mt-3 leading-relaxed">
               Use este espaço para tirar dúvidas institucionais, enviar sugestões de novos temas para a biblioteca ou acionar a nossa Ouvidoria Geral.
             </p>
           </div>
 
           <div className="grid grid-cols-1 gap-10 md:grid-cols-12 items-start">
             {/* Esquerda: Formulário (7/12 largura) */}
-            <div className="md:col-span-7 bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
+            <div data-animate="fade-up" className="md:col-span-7 bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
               {!formSubmitted ? (
                 <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                   <h2 className="text-lg font-bold text-slate-800 border-b border-slate-100 pb-2">
@@ -171,7 +171,7 @@ export default function Contato() {
                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                        Enviando...
+                         Enviando...
                       </>
                     ) : (
                       "Enviar Mensagem"
@@ -199,7 +199,7 @@ export default function Contato() {
             </div>
 
             {/* Direita: Informações Gerais (5/12 largura) */}
-            <div className="md:col-span-5 flex flex-col gap-6">
+            <div data-animate="fade-up" className="md:col-span-5 flex flex-col gap-6">
               {/* Canais Diretos */}
               <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm flex flex-col gap-4">
                 <h3 className="font-bold text-slate-800 border-b border-slate-100 pb-2">

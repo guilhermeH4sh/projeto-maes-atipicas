@@ -100,4 +100,193 @@ html.high-contrast {
   fill: none !important;
 }
 
+/* ==========================================================================
+   ANIMAÇÕES E EFEITOS VISUAIS PREMIUM (GSAP, Lenis, SplitType)
+   ========================================================================== */
+
+/* Transições suaves e profissionais para botões e links */
+a, button {
+  transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Efeito de elevação sutil em cards */
+.hover-lift {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.08);
+}
+
+/* Evitar FOUC (flash de conteúdo não animado) se o JS estiver ativo */
+html.js [data-animate="fade-up"],
+html.js [data-animate="fade-in"],
+html.js [data-animate="text-reveal"] {
+  opacity: 0;
+}
+
+html.js [data-animate="stagger-cards"] > * {
+  opacity: 0;
+}
+
+/* SplitType helpers */
+.line-wrapper {
+  overflow: hidden;
+  display: block;
+  line-height: 1.25;
+  padding-bottom: 0.1em;
+}
+
+/* Navbar Inteligente com Efeito de Blur Translúcido */
+header {
+  position: sticky;
+  top: 0;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+header.header-scrolled {
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Apenas aplicar o blur e fundo translúcido na barra principal de navegação se scrolled */
+header.header-scrolled > div:nth-child(2),
+header.header-scrolled > div:nth-child(3) {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+
+/* Ajuste fino nas abas de navegação quando scrolled */
+header.header-scrolled > div:nth-child(3) {
+  background-color: rgba(241, 245, 249, 0.8) !important;
+}
+
+/* Desativar efeitos em alto contraste */
+.high-contrast header.header-scrolled > div:nth-child(2),
+.high-contrast header.header-scrolled > div:nth-child(3) {
+  background-color: #000000 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Suporte para scroll do Lenis */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Respeitar prefers-reduced-motion do usuário */
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-animate="fade-up"],
+  html.js [data-animate="fade-in"],
+  html.js [data-animate="text-reveal"],
+  html.js [data-animate="stagger-cards"] > * {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
+  
+  a, button, .hover-lift, header {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* --- EFEITOS DISRUPTIVOS ADICIONAIS --- */
+
+/* Gradiente Mesh animado em segundo plano */
+.mesh-gradient-bg {
+  background-color: #fafafa;
+  background-image: 
+    radial-gradient(at 10% 20%, rgba(30, 136, 229, 0.08) 0px, transparent 50%),
+    radial-gradient(at 90% 10%, rgba(67, 160, 71, 0.06) 0px, transparent 50%),
+    radial-gradient(at 90% 90%, rgba(229, 57, 53, 0.05) 0px, transparent 50%),
+    radial-gradient(at 10% 80%, rgba(253, 216, 53, 0.06) 0px, transparent 50%);
+  background-size: 160% 160%;
+  animation: meshAnim 15s ease infinite alternate;
+}
+
+@keyframes meshAnim {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 50% 100%; }
+  100% { background-position: 100% 0%; }
+}
+
+/* Ocultar o cursor do sistema em desktops para habilitar o CustomCursor */
+@media (min-width: 769px) {
+  html.js {
+    cursor: none !important;
+  }
+  html.js body,
+  html.js a, 
+  html.js button, 
+  html.js input, 
+  html.js textarea, 
+  html.js select, 
+  html.js [role="button"],
+  html.js [data-cursor] {
+    cursor: none !important;
+  }
+}
+
+/* Layout para o Scroll Horizontal com Pinning */
+.horizontal-scroll-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.horizontal-scroll-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  height: 100%;
+  will-change: transform;
+}
+
+.horizontal-panel {
+  width: 100vw;
+  height: 100vh;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+/* Suporte para rotações e perspectiva 3D */
+[data-animate="tilt"] {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.preserve-3d-child {
+  transform: translateZ(50px);
+}
+
+
+
 

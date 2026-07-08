@@ -27,16 +27,16 @@ export default function Sobre() {
 
           {/* Cabeçalho de Página */}
           <div className="border-b border-slate-200 pb-6 mb-10 text-left">
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            <h1 data-animate="text-reveal" className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
               Sobre o Portal Mães Atípicas
             </h1>
-            <p className="text-base sm:text-lg text-slate-650 mt-3 leading-relaxed">
+            <p data-animate="fade-in" className="text-base sm:text-lg text-slate-650 mt-3 leading-relaxed">
               Uma iniciativa multidisciplinar focada em traduzir o conhecimento científico em acolhimento diário para famílias de crianças com desenvolvimento atípico.
             </p>
           </div>
 
           {/* Missão e Proposta */}
-          <section className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm text-left flex flex-col gap-6 mb-12">
+          <section data-animate="fade-up" className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm text-left flex flex-col gap-6 mb-12">
             <h2 className="text-xl font-bold text-slate-800 border-l-4 border-brand-blue pl-3">
               Missão e Propósito
             </h2>
@@ -54,7 +54,7 @@ export default function Sobre() {
           </section>
 
           {/* Comitê Multidisciplinar */}
-          <section id="comite" className="mb-12">
+          <section id="comite" data-animate="fade-in" className="mb-12">
             <div className="text-left mb-6">
               <h2 className="text-xl font-bold text-slate-800 border-l-4 border-brand-green pl-3">
                 Comitê Científico e Editorial
@@ -64,11 +64,11 @@ export default function Sobre() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <div data-animate="stagger-cards" className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               {comiteMedico.map((medico, idx) => (
                 <div 
                   key={idx}
-                  className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm text-left flex flex-col gap-2 hover:shadow-md transition-shadow"
+                  className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm text-left flex flex-col gap-2 hover-lift"
                 >
                   <h3 className="font-bold text-slate-900 text-base">{medico.name}</h3>
                   <span className="text-xs font-bold text-brand-green uppercase tracking-wide bg-green-50 px-2.5 py-1 rounded-md w-fit">
@@ -83,7 +83,7 @@ export default function Sobre() {
           </section>
 
           {/* Transparência e Financiamento */}
-          <section id="transparencia" className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm text-left flex flex-col gap-6">
+          <section id="transparencia" data-animate="fade-up" className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm text-left flex flex-col gap-6">
             <h2 className="text-xl font-bold text-slate-800 border-l-4 border-brand-red pl-3">
               Portal da Transparência
             </h2>

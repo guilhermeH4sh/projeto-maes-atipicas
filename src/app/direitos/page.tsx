@@ -27,16 +27,16 @@ export default function Direitos() {
 
           {/* Cabeçalho */}
           <div className="border-b border-slate-200 pb-6 mb-10">
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            <h1 data-animate="text-reveal" className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
               Legislação e Direitos das Famílias Atípicas
             </h1>
-            <p className="text-base text-slate-650 mt-3 leading-relaxed">
+            <p data-animate="fade-in" className="text-base text-slate-650 mt-3 leading-relaxed">
               O amparo jurídico traduzido em etapas simples. Conheça as leis federais que garantem assistência financeira, saúde e inclusão educacional para o seu filho.
             </p>
           </div>
 
           {/* 1. BPC / LOAS */}
-          <section className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm mb-12 flex flex-col gap-6">
+          <section data-animate="fade-up" className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm mb-12 flex flex-col gap-6">
             <div className="border-b border-slate-100 pb-4">
               <span className="inline-flex items-center rounded-full bg-brand-yellow/20 px-3 py-1 text-xs font-bold text-yellow-700">Benefício Federal</span>
               <h2 className="text-2xl font-bold text-slate-900 mt-2">BPC — Benefício de Prestação Continuada (LOAS)</h2>
@@ -55,9 +55,9 @@ export default function Direitos() {
             </div>
 
             {/* Linha do tempo simples */}
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 mt-2">
+            <div data-animate="stagger-cards" className="grid grid-cols-1 gap-6 md:grid-cols-2 mt-2">
               {stepsBpc.map((step) => (
-                <div key={step.num} className="flex gap-4 items-start bg-slate-50 p-5 rounded-2xl border border-slate-150">
+                <div key={step.num} className="flex gap-4 items-start bg-slate-50 p-5 rounded-2xl border border-slate-150 hover-lift">
                   <span className="h-8 w-8 rounded-full bg-brand-yellow/20 flex items-center justify-center font-bold text-yellow-700 shrink-0 select-none">
                     {step.num}
                   </span>
@@ -71,7 +71,7 @@ export default function Direitos() {
           </section>
 
           {/* 2. Direitos de Saúde e Terapias */}
-          <section className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm mb-12 flex flex-col gap-6">
+          <section data-animate="fade-up" className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm mb-12 flex flex-col gap-6">
             <div className="border-b border-slate-100 pb-4">
               <span className="inline-flex items-center rounded-full bg-brand-green/15 px-3 py-1 text-xs font-bold text-brand-green">Saúde</span>
               <h2 className="text-2xl font-bold text-slate-900 mt-2">Terapias Multidisciplinares pelo SUS e Convênios</h2>
@@ -91,7 +91,7 @@ export default function Direitos() {
           </section>
 
           {/* 3. Lei Berenice Piana e Inclusão Escolar */}
-          <section className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm mb-12 flex flex-col gap-6">
+          <section data-animate="fade-up" className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm mb-12 flex flex-col gap-6">
             <div className="border-b border-slate-100 pb-4">
               <span className="inline-flex items-center rounded-full bg-brand-blue/15 px-3 py-1 text-xs font-bold text-brand-blue">Educação</span>
               <h2 className="text-2xl font-bold text-slate-900 mt-2">Lei Berenice Piana e o Mediador Escolar</h2>
@@ -113,7 +113,7 @@ export default function Direitos() {
           </section>
 
           {/* 4. Política de Privacidade e LGPD */}
-          <section id="privacidade" className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm flex flex-col gap-6">
+          <section id="privacidade" data-animate="fade-up" className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm flex flex-col gap-6">
             <div className="border-b border-slate-100 pb-4">
               <span className="inline-flex items-center rounded-full bg-brand-red/15 px-3 py-1 text-xs font-bold text-brand-red">Segurança de Dados</span>
               <h2 className="text-2xl font-bold text-slate-900 mt-2">Política de Privacidade & Conformidade com a LGPD</h2>
