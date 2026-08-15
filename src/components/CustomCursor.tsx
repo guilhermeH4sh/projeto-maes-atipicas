@@ -94,10 +94,8 @@ export default function CustomCursor() {
     };
   }, []);
 
-  if (!isVisible) return null;
-
   return (
-    <>
+    <div style={{ display: isVisible ? "block" : "none" }}>
       {/* Ponto Central */}
       <div
         ref={cursorRef}
@@ -108,6 +106,6 @@ export default function CustomCursor() {
         ref={followerRef}
         className="fixed top-0 left-0 w-8 h-8 border border-brand-blue/40 rounded-full pointer-events-none z-[9998] -translate-x-1/2 -translate-y-1/2 mix-blend-difference"
       />
-    </>
+    </div>
   );
 }

@@ -1,23 +1,19 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
 import Logo from "./icons/Logo";
 
 export default function Navbar() {
-  const pathname = usePathname();
-  const router = useRouter();
-  const [searchQuery, setSearchQuery] = useState("");
   const [fontScale, setFontScale] = useState(100);
   const [highContrast, setHighContrast] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("inicio");
 
-  // Efeito para sincronizar as preferências de acessibilidade
+  // Sync accessibility preferences
   useEffect(() => {
     const savedScale = localStorage.getItem("maes-atipicas-font-scale");
     const savedContrast = localStorage.getItem("maes-atipicas-high-contrast") === "true";
 
-    // Deferido para o próximo tick para evitar setState síncrono no efeito
     setTimeout(() => {
       if (savedScale) {
         const scale = parseInt(savedScale, 10);
@@ -29,6 +25,29 @@ export default function Navbar() {
         document.documentElement.classList.add("high-contrast");
       }
     }, 0);
+  }, []);
+
+  // Monitor scroll to update active section
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ["inicio", "pilares", "conteudos", "mural", "faq", "contato"];
+      const scrollPosition = window.scrollY + 200;
+
+      for (const section of sections) {
+        const el = document.getElementById(section);
+        if (el) {
+          const top = el.offsetTop;
+          const height = el.offsetHeight;
+          if (scrollPosition >= top && scrollPosition < top + height) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const changeFontScale = (increment: number) => {
@@ -52,135 +71,168 @@ export default function Navbar() {
     }
   };
 
-  const handleSearchSubmit = (e: React.FormEvent) => {
+  const navLinks = [
+    { name: "Início", hash: "#inicio", id: "inicio" },
+    { name: "Pilares", hash: "#pilares", id: "pilares" },
+    { name: "Guias", hash: "#conteudos", id: "conteudos" },
+    { name: "Mural & TV", hash: "#mural", id: "mural" },
+    { name: "FAQ", hash: "#faq", id: "faq" },
+    { name: "Contato", hash: "#contato", id: "contato" }
+  ];
+
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, hash: string) => {
     e.preventDefault();
-    if (searchQuery.trim()) {
-      // Redireciona para a biblioteca com o termo de busca
-      router.push(`/biblioteca?busca=${encodeURIComponent(searchQuery)}`);
+    setIsMobileMenuOpen(false);
+    const targetEl = document.querySelector(hash);
+    if (targetEl) {
+      targetEl.scrollIntoView({ behavior: "smooth" });
     }
   };
 
-  // Links do Menu Horizontal Principal
-  const navLinks = [
-    { name: "Início", path: "/" },
-    { name: "Sobre o Portal", path: "/sobre" },
-    { name: "Biblioteca Digital", path: "/biblioteca" },
-    { name: "Direitos & Leis", path: "/direitos" },
-    { name: "Assistente IA", path: "/chatbot" },
-    { name: "Ouvidoria / Contato", path: "/contato" }
-  ];
-
   return (
-    <header className="w-full flex flex-col z-50 sticky top-0 shadow-md">
-      {/* 1. BARRA SUPERIOR DE UTILITÁRIOS E ACESSIBILIDADE (Estilo Portal USP) */}
-      <div className="w-full bg-slate-900 text-slate-300 py-2 border-b border-slate-800 text-xs">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col gap-2 sm:flex-row items-center justify-between">
-          {/* Acessibilidade */}
-          <div className="flex items-center gap-4">
-            <span className="font-semibold uppercase tracking-wider text-slate-400">Acessibilidade:</span>
+    <header className="w-full flex flex-col z-50 sticky top-0 bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-100 transition-all duration-300">
+      {/* 1. Barra de Acessibilidade Superior (Clean & Discreta) */}
+      <div className="w-full bg-slate-900 text-slate-300 py-1.5 text-xs">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <span className="font-semibold text-slate-400">Acessibilidade:</span>
             <button 
               onClick={() => changeFontScale(10)}
-              className="hover:text-white transition-colors focus:outline-none cursor-pointer font-bold px-1"
-              aria-label="Aumentar tamanho do texto"
+              className="hover:text-white transition-colors cursor-pointer font-bold px-1"
+              aria-label="Aumentar texto"
             >
               A+
             </button>
             <button 
               onClick={() => changeFontScale(-10)}
-              className="hover:text-white transition-colors focus:outline-none cursor-pointer font-bold px-1"
-              aria-label="Diminuir tamanho do texto"
+              className="hover:text-white transition-colors cursor-pointer font-bold px-1"
+              aria-label="Diminuir texto"
             >
               A-
             </button>
             <button 
               onClick={toggleHighContrast}
-              className="hover:text-white transition-colors focus:outline-none cursor-pointer font-bold px-1 flex items-center gap-1"
-              aria-label="Ativar alto contraste"
+              className="hover:text-white transition-colors cursor-pointer font-bold px-1 flex items-center gap-1"
+              aria-label="Alternar alto contraste"
             >
-              <span>◐</span> Alto Contraste
+              <span>◐</span> Contraste
             </button>
           </div>
-
-          {/* Links Rápidos Institucionais */}
-          <div className="flex items-center gap-4">
-            <Link href="/sobre" className="hover:text-white transition-colors">Transparência</Link>
+          <div className="hidden sm:flex items-center gap-4 text-slate-400">
+            <span>Universidade do Cuidado</span>
             <span>•</span>
-            <Link href="/contato" className="hover:text-white transition-colors">Carta de Serviços</Link>
-            <span>•</span>
-            <Link href="/direitos" className="hover:text-white transition-colors">LGPD</Link>
-            <span>•</span>
-            <span className="text-slate-500">Idioma: 🇧🇷 PT-BR</span>
+            <span>Apoio Inclusivo</span>
           </div>
         </div>
       </div>
 
-      {/* 2. ÁREA PRINCIPAL DO HEADER (Logo, Título e Busca - Estilo USP) */}
-      <div className="w-full bg-white py-5 border-b border-slate-200">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          
-          {/* Logo e Identidade */}
-          <Link href="/" className="flex items-center gap-4 focus:outline-2 focus:outline-brand-blue rounded-lg p-1 transition-all">
-            <Logo size={100} className="shrink-0" />
+      {/* 2. Menu Principal (Estilo Nuvemshop) */}
+      <div className="w-full py-4">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+          {/* Logo e Nome da Marca */}
+          <a 
+            href="#inicio" 
+            onClick={(e) => handleLinkClick(e, "#inicio")} 
+            className="flex items-center gap-3 group focus:outline-none"
+          >
+            <Logo size={42} className="transition-transform group-hover:scale-105 duration-300" />
             <div className="flex flex-col">
-              <span className="text-2xl font-extrabold tracking-tight text-slate-850 leading-tight">
-                PORTAL MÃES ATÍPICAS
+              <span className="text-xl font-black tracking-tight text-slate-900 leading-none">
+                Mães Atípicas
               </span>
-              <span className="text-xs font-bold text-brand-blue uppercase tracking-widest mt-0.5">
-                Universidade do Cuidado · Apoio & Orientação
+              <span className="text-[9px] font-bold text-brand-blue uppercase tracking-widest mt-1">
+                Portal de Acolhimento
               </span>
             </div>
-          </Link>
+          </a>
 
-          {/* Barra de Busca Integrada (Estilo USP) */}
-          <form onSubmit={handleSearchSubmit} className="relative w-full max-w-md shrink-0">
-            <label htmlFor="navbar-search" className="sr-only">Buscar no portal</label>
-            <div className="relative">
-              <input
-                id="navbar-search"
-                type="text"
-                placeholder="O que você procura? (ex: BPC, autoagressão)"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full rounded-xl border border-slate-300 bg-slate-50/50 py-3 pl-4 pr-12 text-sm text-slate-800 focus:border-brand-blue focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-blue/20"
-              />
-              <button
-                type="submit"
-                className="absolute inset-y-0 right-0 flex items-center pr-4 text-slate-400 hover:text-brand-blue"
-                aria-label="Executar busca"
+          {/* Links para Desktop */}
+          <nav className="hidden md:flex items-center gap-8">
+            {navLinks.map((link) => (
+              <a
+                key={link.hash}
+                href={link.hash}
+                onClick={(e) => handleLinkClick(e, link.hash)}
+                className={`text-sm font-semibold tracking-wide transition-all py-1 border-b-2 ${
+                  activeSection === link.id
+                    ? "border-brand-blue text-brand-blue"
+                    : "border-transparent text-slate-600 hover:text-slate-900"
+                }`}
               >
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </button>
-            </div>
-          </form>
-
-        </div>
-      </div>
-
-      {/* 3. MENU DE ABAS HORIZONTAL PRINCIPAL (Abas Azuis - Estilo USP) */}
-      <div className="w-full bg-slate-100 border-b border-slate-200">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <nav className="flex flex-wrap -mb-px" aria-label="Abas de Navegação">
-            {navLinks.map((link) => {
-              const isActive = pathname === link.path;
-              return (
-                <Link
-                  key={link.path}
-                  href={link.path}
-                  className={`border-b-4 px-6 py-4 text-sm font-bold transition-all ${
-                    isActive
-                      ? "border-brand-blue bg-white text-brand-blue shadow-sm"
-                      : "border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-50/70"
-                  }`}
-                >
-                  {link.name}
-                </Link>
-              );
-            })}
+                {link.name}
+              </a>
+            ))}
           </nav>
+
+          {/* Botão de Destaque CTA (Estilo Nuvemshop) */}
+          <div className="hidden md:block">
+            <a
+              href="#contato"
+              onClick={(e) => handleLinkClick(e, "#contato")}
+              className="inline-flex items-center justify-center px-5 py-2.5 rounded-full text-xs font-bold text-white bg-brand-blue hover:bg-brand-blue-hover shadow-sm transition-all transform hover:-translate-y-0.5 hover:shadow-md cursor-pointer"
+            >
+              Fale Conosco
+            </a>
+          </div>
+
+          {/* Hamburguer Mobile */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden p-2 text-slate-600 hover:text-slate-950 focus:outline-none cursor-pointer"
+            aria-label="Abrir menu"
+          >
+            <svg
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              {isMobileMenuOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              )}
+            </svg>
+          </button>
         </div>
       </div>
+
+      {/* Menu Mobile */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden w-full bg-white border-t border-slate-100 py-4 px-6 flex flex-col gap-4 animate-fade-in shadow-inner">
+          {navLinks.map((link) => (
+            <a
+              key={link.hash}
+              href={link.hash}
+              onClick={(e) => handleLinkClick(e, link.hash)}
+              className={`text-base font-bold py-2 border-l-4 pl-3 ${
+                activeSection === link.id
+                  ? "border-brand-blue text-brand-blue bg-slate-50"
+                  : "border-transparent text-slate-700 hover:text-slate-900"
+              }`}
+            >
+              {link.name}
+            </a>
+          ))}
+          <a
+            href="#contato"
+            onClick={(e) => handleLinkClick(e, "#contato")}
+            className="w-full text-center py-3 rounded-xl text-sm font-bold text-white bg-brand-blue hover:bg-brand-blue-hover shadow-sm transition-all cursor-pointer mt-2"
+          >
+            Fale Conosco
+          </a>
+        </div>
+      )}
     </header>
   );
 }

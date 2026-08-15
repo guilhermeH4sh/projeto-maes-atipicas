@@ -1,10 +1,19 @@
+"use client";
+
 import React from "react";
-import Link from "next/link";
 import Logo from "./icons/Logo";
 
 export default function Footer() {
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, hash: string) => {
+    e.preventDefault();
+    const targetEl = document.querySelector(hash);
+    if (targetEl) {
+      targetEl.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <footer className="w-full bg-slate-900 text-slate-350 border-t-4 border-brand-blue pt-16 pb-12 text-sm">
+    <footer className="w-full bg-slate-900 text-slate-350 border-t border-slate-800 pt-16 pb-12 text-sm">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
         {/* Grid Superior */}
@@ -15,8 +24,8 @@ export default function Footer() {
             <div className="flex items-center gap-3">
               <Logo size={40} className="bg-white p-1 rounded-lg shrink-0" />
               <div className="flex flex-col">
-                <span className="text-lg font-bold text-white tracking-tight">Portal Mães Atípicas</span>
-                <span className="text-[10px] font-bold text-brand-blue uppercase tracking-widest -mt-0.5">Universidade do Cuidado</span>
+                <span className="text-lg font-bold text-white tracking-tight">Mães Atípicas</span>
+                <span className="text-[10px] font-bold text-brand-blue uppercase tracking-widest -mt-0.5">Portal de Acolhimento</span>
               </div>
             </div>
             <p className="text-xs text-slate-400 leading-relaxed">
@@ -24,89 +33,64 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Coluna 1: Institucional */}
+          {/* Coluna 1: Mapa do Site */}
           <div className="flex flex-col gap-4">
             <h3 className="text-xs font-bold text-white uppercase tracking-wider border-l-2 border-brand-blue pl-2">
-              Institucional
+              Navegação
             </h3>
             <ul className="space-y-2 text-xs">
               <li>
-                <Link href="/sobre" className="hover:text-white hover:underline transition-all">
-                  Quem Somos e Missão
-                </Link>
+                <a href="#inicio" onClick={(e) => handleLinkClick(e, "#inicio")} className="hover:text-white hover:underline transition-all">
+                  Início
+                </a>
               </li>
               <li>
-                <Link href="/sobre#comite" className="hover:text-white hover:underline transition-all">
-                  Comitê Multidisciplinar
-                </Link>
+                <a href="#pilares" onClick={(e) => handleLinkClick(e, "#pilares")} className="hover:text-white hover:underline transition-all">
+                  Pilares de Apoio
+                </a>
               </li>
               <li>
-                <Link href="/contato" className="hover:text-white hover:underline transition-all">
-                  Carta de Serviços à Comunidade
-                </Link>
-              </li>
-              <li>
-                <Link href="/sobre#transparencia" className="hover:text-white hover:underline transition-all">
-                  Portal de Transparência
-                </Link>
+                <a href="#conteudos" onClick={(e) => handleLinkClick(e, "#conteudos")} className="hover:text-white hover:underline transition-all">
+                  Guias e Conteúdos
+                </a>
               </li>
             </ul>
           </div>
 
-          {/* Coluna 2: Canais Digitais */}
+          {/* Coluna 2: Recursos */}
           <div className="flex flex-col gap-4">
             <h3 className="text-xs font-bold text-white uppercase tracking-wider border-l-2 border-brand-green pl-2">
-              Serviços e Conteúdos
+              Comunidade
             </h3>
             <ul className="space-y-2 text-xs">
               <li>
-                <Link href="/biblioteca" className="hover:text-white hover:underline transition-all">
-                  Biblioteca Digital de Materiais
-                </Link>
+                <a href="#mural" onClick={(e) => handleLinkClick(e, "#mural")} className="hover:text-white hover:underline transition-all">
+                  Mural de Avisos & TV
+                </a>
               </li>
               <li>
-                <Link href="/direitos" className="hover:text-white hover:underline transition-all">
-                  Legislação, Direitos e BPC
-                </Link>
-              </li>
-              <li>
-                <Link href="/chatbot" className="hover:text-white hover:underline transition-all">
-                  Assistente de Apoio IA
-                </Link>
-              </li>
-              <li>
-                <Link href="/biblioteca?categoria=videos" className="hover:text-white hover:underline transition-all">
-                  TV Mães Atípicas
-                </Link>
+                <a href="#faq" onClick={(e) => handleLinkClick(e, "#faq")} className="hover:text-white hover:underline transition-all">
+                  Dúvidas Frequentes (FAQ)
+                </a>
               </li>
             </ul>
           </div>
 
-          {/* Coluna 3: Transparência e Contato */}
+          {/* Coluna 3: Ouvidoria e Contato */}
           <div className="flex flex-col gap-4">
             <h3 className="text-xs font-bold text-white uppercase tracking-wider border-l-2 border-brand-red pl-2">
-              Segurança e Fale Conosco
+              Suporte & Contato
             </h3>
             <ul className="space-y-2 text-xs">
               <li>
-                <Link href="/contato#ouvidoria" className="hover:text-white hover:underline transition-all font-semibold text-brand-red">
-                  Ouvidoria do Portal
-                </Link>
+                <a href="#contato" onClick={(e) => handleLinkClick(e, "#contato")} className="hover:text-white hover:underline transition-all font-semibold text-brand-blue">
+                  Fale Conosco
+                </a>
               </li>
               <li>
-                <Link href="/contato" className="hover:text-white hover:underline transition-all">
-                  Fale com o Portal
-                </Link>
-              </li>
-              <li>
-                <Link href="/direitos#privacidade" className="hover:text-white hover:underline transition-all">
-                  Encarregado de Dados (DPO)
-                </Link>
-              </li>
-              <li>
-                <Link href="/direitos#termos" className="hover:text-white hover:underline transition-all">
-                  Termos e Políticas de Uso
-                </Link>
+                <a href="#contato" onClick={(e) => handleLinkClick(e, "#contato")} className="hover:text-white hover:underline transition-all">
+                  Ouvidoria (Sugestões)
+                </a>
               </li>
             </ul>
           </div>
@@ -118,10 +102,10 @@ export default function Footer() {
           {/* Informações de Compliance e LGPD */}
           <div className="flex flex-col gap-1 text-left max-w-xl">
             <p className="text-[11px] text-slate-500 leading-relaxed">
-              O Portal Mães Atípicas segue as diretrizes da Lei Geral de Proteção de Dados (LGPD) - Lei nº 13.709/2018. Todos os dados coletados para as simulações de suporte da assistente virtual e biblioteca são anonimizados e tratados sob sigilo de segurança.
+              O Portal Mães Atípicas segue as diretrizes da Lei Geral de Proteção de Dados (LGPD) - Lei nº 13.709/2018. Todos os dados enviados pelo formulário de contato são tratados sob sigilo de segurança e privacidade.
             </p>
             <p className="text-[11px] text-slate-500">
-              Certificações de Acessibilidade: Em conformidade com o e-MAG (Modelo de Acessibilidade em Governo Eletrônico).
+              Certificações de Acessibilidade: Em conformidade com o e-MAG (Modelo de Acessibilidade em Governo Eletrônico) e WCAG 2.1 AA.
             </p>
           </div>
 
@@ -132,7 +116,7 @@ export default function Footer() {
               <span className="border border-slate-700 rounded px-1.5 py-0.5 select-none bg-slate-800 text-[10px]">e-MAG</span>
             </div>
             <p className="mt-1 text-center md:text-right">
-              © {new Date().getFullYear()} Portal Mães Atípicas · Desenvolvido com amor para famílias neurodiversas.
+              © {new Date().getFullYear()} Mães Atípicas · Desenvolvido com carinho para apoiar quem cuida.
             </p>
           </div>
         </div>
