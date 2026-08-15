@@ -5,22 +5,31 @@ import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
+/**
+ * Interface que representa um Guia de Conteúdo Informativo
+ */
 interface GuideItem {
   id: string;
   tag: string;
   title: string;
   excerpt: string;
   icon: string;
-  colorClass: string; // for border/badge
-  bgClass: string;    // for hover background
+  colorClass: string; // Classes CSS para customização de cor da borda/badge
+  bgClass: string;    // Classes CSS de fundo ao passar o mouse (hover)
   content: React.ReactNode;
 }
 
+/**
+ * Interface que representa um item de FAQ (Perguntas Frequentes)
+ */
 interface FAQItem {
   question: string;
   answer: string;
 }
 
+/**
+ * Interface para os informativos exibidos no Mural de Avisos
+ */
 interface NoticeItem {
   id: string;
   type: "urgente" | "informativo" | "evento";
@@ -30,6 +39,9 @@ interface NoticeItem {
   badgeColor: string;
 }
 
+/**
+ * Interface para os vídeos exibidos no bloco da TV Mães Atípicas
+ */
 interface VideoItem {
   id: string;
   title: string;
@@ -41,11 +53,12 @@ interface VideoItem {
 }
 
 export default function Home() {
-  const [activeGuide, setActiveGuide] = useState<GuideItem | null>(null);
-  const [activeVideo, setActiveVideo] = useState<VideoItem | null>(null);
-  const [openFAQIndex, setOpenFAQIndex] = useState<number | null>(null);
+  // Estados para controle de exibição dos Modais e Accordions
+  const [activeGuide, setActiveGuide] = useState<GuideItem | null>(null); // Guia atualmente aberto no modal
+  const [activeVideo, setActiveVideo] = useState<VideoItem | null>(null); // Vídeo em reprodução no modal
+  const [openFAQIndex, setOpenFAQIndex] = useState<number | null>(null); // FAQ expandido no accordion
   
-  // Contact Form State
+  // Estado de controle do Formulário de Contato / Ouvidoria
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "", type: "sugestao", message: "", anonymous: false });
 
