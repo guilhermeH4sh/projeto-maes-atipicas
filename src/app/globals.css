@@ -1,16 +1,21 @@
 @import "tailwindcss";
 
+/* ==========================================================================
+   VARIÁVEIS DE TEMA GLOBAIS (Estilo Nuvemshop & Acolhedor)
+   ========================================================================== */
 :root {
   --background: #fafafa;
   --foreground: #1e293b;
 }
 
+/* Extensões de Tema do Tailwind CSS v4 */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   
+  /* Cores oficiais da marca das Mães Atípicas (Neurodiversidade) */
   --color-brand-blue: #1E88E5;
   --color-brand-blue-hover: #1565C0;
   
