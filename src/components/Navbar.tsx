@@ -4,12 +4,19 @@ import React, { useState, useEffect } from "react";
 import Logo from "./icons/Logo";
 
 export default function Navbar() {
+  // Controle de tamanho de fonte de acessibilidade (valores em %)
   const [fontScale, setFontScale] = useState(100);
+  // Estado para ativação do modo de Alto Contraste
   const [highContrast, setHighContrast] = useState(false);
+  // Visibilidade do menu hamburguer em dispositivos móveis
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  // Seção da landing page atualmente visível na tela (para destacar o link ativo)
   const [activeSection, setActiveSection] = useState("inicio");
 
-  // Sync accessibility preferences
+  /**
+   * Sincroniza as preferências de acessibilidade do usuário (fonte e contraste)
+   * que foram persistidas anteriormente no localStorage do navegador.
+   */
   useEffect(() => {
     const savedScale = localStorage.getItem("maes-atipicas-font-scale");
     const savedContrast = localStorage.getItem("maes-atipicas-high-contrast") === "true";
@@ -27,7 +34,10 @@ export default function Navbar() {
     }, 0);
   }, []);
 
-  // Monitor scroll to update active section
+  /**
+   * Registra um listener de scroll para monitorar a posição da tela
+   * e destacar automaticamente o menu correspondente à seção visível.
+   */
   useEffect(() => {
     const handleScroll = () => {
       const sections = ["inicio", "pilares", "conteudos", "mural", "faq", "contato"];
