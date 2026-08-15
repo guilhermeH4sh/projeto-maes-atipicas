@@ -72,9 +72,20 @@ export default function Home() {
     setFormData((prev) => ({ ...prev, [name]: checked }));
   };
 
+  /**
+   * Trata o envio do formulário de contato/ouvidoria.
+   * Realiza validações básicas e simula uma requisição HTTP para a API.
+   */
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate API call
+    
+    // Validação básica de segurança
+    if (!formData.message.trim()) {
+      alert("Por favor, preencha a sua mensagem ou relato.");
+      return;
+    }
+    
+    // Simula envio de dados para o sistema de Ouvidoria
     setTimeout(() => {
       setFormSubmitted(true);
       setFormData({ name: "", email: "", type: "sugestao", message: "", anonymous: false });
