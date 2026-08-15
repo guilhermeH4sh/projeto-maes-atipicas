@@ -35,29 +35,32 @@ export default function Navbar() {
   }, []);
 
   /**
-   * Registra um listener de scroll para monitorar a posição da tela
-   * e destacar automaticamente o menu correspondente à seção visível.
+   * Registra observers de interseção para monitorar a visibilidade das seções
+   * e destacar o link ativo de navegação de forma eficiente e sem reflow.
    */
   useEffect(() => {
-    const handleScroll = () => {
-      const sections = ["inicio", "pilares", "conteudos", "mural", "faq", "contato"];
-      const scrollPosition = window.scrollY + 200;
+    const sections = ["inicio", "pilares", "conteudos", "mural", "faq", "contato"];
+    const observers: { observer: IntersectionObserver; el: HTMLElement }[] = [];
 
-      for (const section of sections) {
-        const el = document.getElementById(section);
-        if (el) {
-          const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollPosition >= top && scrollPosition < top + height) {
-            setActiveSection(section);
-            break;
-          }
-        }
+    sections.forEach((section) => {
+      const el = document.getElementById(section);
+      if (el) {
+        const observer = new IntersectionObserver(
+          ([entry]) => {
+            if (entry.isIntersecting) {
+              setActiveSection(section);
+            }
+          },
+          { rootMargin: "-20% 0px -65% 0px" } // Gatilho para a parte central superior do viewport
+        );
+        observer.observe(el);
+        observers.push({ observer, el });
       }
-    };
+    });
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      observers.forEach(({ observer, el }) => observer.unobserve(el));
+    };
   }, []);
 
   const changeFontScale = (increment: number) => {
