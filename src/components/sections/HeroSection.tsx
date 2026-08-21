@@ -22,17 +22,17 @@ export default function HeroSection() {
         <div className="max-w-3xl">
           <div className="flex items-center gap-4 mb-8">
             <Logo size={72} className="hero-logo-enter" />
-            <p
+            <h1
               id="hero-brand"
               className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-slate-900 leading-[1.05] hero-copy-enter"
             >
               Mães Atípicas
-            </p>
+            </h1>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-800 leading-snug mb-5 hero-copy-enter hero-copy-delay-1">
+          <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-800 leading-snug mb-5 hero-copy-enter hero-copy-delay-1">
             Você não está sozinha na jornada atípica.
-          </h1>
+          </p>
 
           <p className="text-slate-600 text-lg sm:text-xl max-w-2xl leading-relaxed mb-10 hero-copy-enter hero-copy-delay-2">
             Orientação clara sobre direitos, escola inclusiva e saúde mental —
