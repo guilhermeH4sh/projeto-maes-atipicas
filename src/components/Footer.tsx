@@ -2,23 +2,19 @@
 
 import React from "react";
 import Logo from "./icons/Logo";
+import BrandRibbon from "./BrandRibbon";
+import { scrollToHash } from "@/lib/scroll";
 
 export default function Footer() {
-  /**
-   * Intercepta o clique nos links âncora do rodapé para realizar 
-   * uma rolagem suave (smooth scroll) até o elemento correspondente.
-   */
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, hash: string) => {
     e.preventDefault();
-    const targetEl = document.querySelector(hash);
-    if (targetEl) {
-      targetEl.scrollIntoView({ behavior: "smooth" });
-    }
+    scrollToHash(hash);
   };
 
   return (
-    <footer className="w-full bg-slate-900 text-slate-350 border-t border-slate-800 pt-16 pb-12 text-sm">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <footer className="w-full bg-slate-900 text-slate-300 border-t border-slate-800 pb-12 text-sm">
+      <BrandRibbon />
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16">
         
         {/* Grid Superior */}
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-4 border-b border-slate-800 pb-12">
@@ -32,7 +28,7 @@ export default function Footer() {
                 <span className="text-[10px] font-bold text-brand-blue uppercase tracking-widest -mt-0.5">Portal de Acolhimento</span>
               </div>
             </div>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <p className="text-sm text-slate-400 leading-relaxed">
               O Portal Oficial de Informação, Acolhimento e Orientação para famílias que vivenciam a neurodiversidade e o desenvolvimento infantil atípico.
             </p>
           </div>
@@ -42,7 +38,7 @@ export default function Footer() {
             <h3 className="text-xs font-bold text-white uppercase tracking-wider border-l-2 border-brand-blue pl-2">
               Navegação
             </h3>
-            <ul className="space-y-2 text-xs">
+            <ul className="space-y-3 text-sm">
               <li>
                 <a href="#inicio" onClick={(e) => handleLinkClick(e, "#inicio")} className="hover:text-white hover:underline transition-all">
                   Início
@@ -66,7 +62,7 @@ export default function Footer() {
             <h3 className="text-xs font-bold text-white uppercase tracking-wider border-l-2 border-brand-green pl-2">
               Comunidade
             </h3>
-            <ul className="space-y-2 text-xs">
+            <ul className="space-y-3 text-sm">
               <li>
                 <a href="#mural" onClick={(e) => handleLinkClick(e, "#mural")} className="hover:text-white hover:underline transition-all">
                   Mural de Avisos & TV
@@ -85,10 +81,15 @@ export default function Footer() {
             <h3 className="text-xs font-bold text-white uppercase tracking-wider border-l-2 border-brand-red pl-2">
               Suporte & Contato
             </h3>
-            <ul className="space-y-2 text-xs">
+            <ul className="space-y-3 text-sm">
               <li>
                 <a href="#contato" onClick={(e) => handleLinkClick(e, "#contato")} className="hover:text-white hover:underline transition-all font-semibold text-brand-blue">
                   Fale Conosco
+                </a>
+              </li>
+              <li>
+                <a href="#ajuda" onClick={(e) => handleLinkClick(e, "#ajuda")} className="hover:text-white hover:underline transition-all">
+                  Ajuda urgente (188 / 100 / 192)
                 </a>
               </li>
               <li>

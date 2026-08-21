@@ -1,22 +1,32 @@
-# Diretrizes de Acessibilidade ♿
+# Diretrizes de Acessibilidade
 
-O **Portal Mães Atípicas** foi estruturado com foco primordial em acessibilidade, atendendo às necessidades de cuidadores sob estresse mental e visual, e em conformidade com as diretrizes do **e-MAG** (Modelo de Acessibilidade em Governo Eletrônico) e **WCAG 2.1 AA** (Web Content Accessibility Guidelines).
+O **Portal Mães Atípicas** prioriza cuidadores sob estresse, com conformidade a **e-MAG** e **WCAG 2.1 AA**.
 
----
+## Recursos implementados
 
-## 🛠️ Recursos Implementados
+### 1. Dimensionamento dinâmico de texto
+- Botões `A+` e `A-` na barra superior ajustam `html.style.fontSize` entre **80%** e **140%**.
+- Preferência salva em `localStorage` (`maes-atipicas-font-scale`).
 
-### 1. Dimensionamento Dinâmico de Texto
-- **Objetivo:** Permitir que usuários com baixa acuidade visual ou telas menores aumentem a fonte para uma leitura confortável.
-- **Funcionamento:** Botões `A+` (Aumentar) e `A-` (Diminuir) na barra de utilitários superior ajustam o tamanho da fonte base (`html.style.fontSize`) dinamicamente entre **80%** e **140%**.
-- **Persistência:** A preferência do usuário é gravada no `localStorage` para manter o tamanho de texto configurado em acessos futuros.
+### 2. Modo de alto contraste
+- Botão `Contraste` aplica a classe `.high-contrast` no `html`.
+- Paleta preto / branco / amarelo `#FDD835` para leitura sob luz forte ou baixa distinção de tons.
+- Preferência salva em `localStorage` (`maes-atipicas-high-contrast`).
 
-### 2. Modo de Alto Contraste
-- **Objetivo:** Otimizar a leitura sob luz solar forte ou para pessoas com daltonismo e outras dificuldades de distinção de tons.
-- **Funcionamento:** Ao acionar o botão `Contraste`, uma classe `.high-contrast` é injetada no elemento raiz. Toda a folha de estilos do projeto se adapta usando cores puras em preto (`#000000`), branco (`#FFFFFF`) e acentos de destaque em amarelo (`#FDD835`).
-- **Persistência:** A preferência de contraste também é persistida no `localStorage`.
+### 3. Navegação e toque
+- Alvos de toque com no mínimo **48px** de altura útil.
+- Skip link “Pular para o conteúdo principal”.
+- Menu mobile fecha com `Escape`.
+- Linguagem direta nos guias, sem jargão clínico desnecessário.
 
-### 3. Navegação Acessível e Mobile-First
-- **Tamanho dos Alvos de Toque:** Todos os botões, links de ancoragem e elementos de formulário possuem dimensões generosas (mínimo de **48px** de área de clique ativa) para evitar toques involuntários.
-- **Linguagem Simplificada:** Textos descritivos nos guias utilizam termos cotidianos e explicativos em vez de jargões clínicos de difícil compreensão.
-- **Foco de Teclado:** Elementos focáveis recebem contornos claros ao navegar por tabulação, permitindo navegação sem mouse.
+### 4. Teclado e modais
+- Contorno de foco visível (`:focus-visible`).
+- Modais de guias e vídeos: `role="dialog"`, `aria-modal`, fecham com `Escape`, focam o botão Fechar ao abrir e devolvem o foco ao fechar.
+
+### 5. Movimento reduzido
+- `prefers-reduced-motion: reduce` desativa animações do hero e do `Reveal`.
+- Rolagem por âncora usa comportamento `auto` quando o usuário pede menos movimento.
+
+### 6. Semântica e estrutura
+- Marca **Mães Atípicas** como `h1` no hero.
+- Seções com `aria-labelledby` e formulário de contato com validação anunciada via `role="alert"`.
