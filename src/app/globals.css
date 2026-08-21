@@ -1,44 +1,64 @@
 @import "tailwindcss";
 
-/* ==========================================================================
-   VARIÁVEIS DE TEMA GLOBAIS (Estilo Nuvemshop & Acolhedor)
-   ========================================================================== */
 :root {
-  --background: #fafafa;
+  --background: #f7f8fa;
   --foreground: #1e293b;
 }
 
-/* Extensões de Tema do Tailwind CSS v4 */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  
-  /* Cores oficiais da marca das Mães Atípicas (Neurodiversidade) */
-  --color-brand-blue: #1E88E5;
-  --color-brand-blue-hover: #1565C0;
-  
-  --color-brand-red: #E53935;
-  --color-brand-red-hover: #C62828;
-  
-  --color-brand-yellow: #FDD835;
-  --color-brand-yellow-hover: #FBC02D;
-  
-  --color-brand-green: #43A047;
-  --color-brand-green-hover: #2E7D32;
+  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+
+  --color-brand-blue: #1e88e5;
+  --color-brand-blue-hover: #1565c0;
+  --color-brand-red: #e53935;
+  --color-brand-red-hover: #c62828;
+  --color-brand-yellow: #fdd835;
+  --color-brand-yellow-hover: #fbc02d;
+  --color-brand-green: #43a047;
+  --color-brand-green-hover: #2e7d32;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 7.5rem;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
-  line-height: 1.6;
+  font-family: var(--font-sans);
+  line-height: 1.65;
+  font-size: 1.0625rem;
 }
 
-/* ==========================================================================
-   ACESSIVILIDADE: Alto Contraste
-   ========================================================================== */
+:focus-visible {
+  outline: 3px solid #1e88e5;
+  outline-offset: 3px;
+}
+
+.high-contrast :focus-visible {
+  outline-color: #fdd835;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -100px;
+  z-index: 10001;
+  background: #1e88e5;
+  color: #fff;
+  padding: 0.75rem 1.25rem;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* Alto contraste */
 html.high-contrast {
   --background: #000000;
   --foreground: #ffffff;
@@ -76,7 +96,7 @@ html.high-contrast {
 
 .high-contrast a,
 .high-contrast button:not([disabled]) {
-  color: #fdd835 !important; /* Amarelo de contraste padrão */
+  color: #fdd835 !important;
   text-decoration: underline;
 }
 
@@ -105,193 +125,67 @@ html.high-contrast {
   fill: none !important;
 }
 
-/* ==========================================================================
-   ANIMAÇÕES E EFEITOS VISUAIS PREMIUM (GSAP, Lenis, SplitType)
-   ========================================================================== */
-
-/* Transições suaves e profissionais para botões e links */
-a, button {
-  transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
-              background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
-              border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
-              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
-              transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+/* Hero atmosphere + entrada suave (2–3 motions) */
+.hero-atmosphere {
+  background:
+    linear-gradient(165deg, #e8f4fc 0%, #f7f8fa 42%, #eef8f0 100%);
 }
 
-/* Efeito de elevação sutil em cards */
-.hover-lift {
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
-}
-.hover-lift:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.08);
+.hero-logo-enter {
+  animation: heroRise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-/* Evitar FOUC (flash de conteúdo não animado) se o JS estiver ativo */
-html.js [data-animate="fade-up"],
-html.js [data-animate="fade-in"],
-html.js [data-animate="text-reveal"] {
+.hero-copy-enter {
+  animation: heroRise 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero-copy-delay-1 {
+  animation-delay: 0.08s;
+}
+
+.hero-copy-delay-2 {
+  animation-delay: 0.16s;
+}
+
+.hero-copy-delay-3 {
+  animation-delay: 0.24s;
+}
+
+@keyframes heroRise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal {
   opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-html.js [data-animate="stagger-cards"] > * {
-  opacity: 0;
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-/* SplitType helpers */
-.line-wrapper {
-  overflow: hidden;
-  display: block;
-  line-height: 1.25;
-  padding-bottom: 0.1em;
-}
-
-/* Navbar Inteligente com Efeito de Blur Translúcido */
-header {
-  position: sticky;
-  top: 0;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-              background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
-}
-
-header.header-scrolled {
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08) !important;
-}
-
-/* Apenas aplicar o blur e fundo translúcido na barra principal de navegação se scrolled */
-header.header-scrolled > div:nth-child(2),
-header.header-scrolled > div:nth-child(3) {
-  background-color: rgba(255, 255, 255, 0.8) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
-}
-
-/* Ajuste fino nas abas de navegação quando scrolled */
-header.header-scrolled > div:nth-child(3) {
-  background-color: rgba(241, 245, 249, 0.8) !important;
-}
-
-/* Desativar efeitos em alto contraste */
-.high-contrast header.header-scrolled > div:nth-child(2),
-.high-contrast header.header-scrolled > div:nth-child(3) {
-  background-color: #000000 !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-}
-
-/* Suporte para scroll do Lenis */
-html.lenis, html.lenis body {
-  height: auto;
-}
-
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
-
-.lenis.lenis-scrolling iframe {
-  pointer-events: none;
-}
-
-/* Respeitar prefers-reduced-motion do usuário */
 @media (prefers-reduced-motion: reduce) {
-  html.js [data-animate="fade-up"],
-  html.js [data-animate="fade-in"],
-  html.js [data-animate="text-reveal"],
-  html.js [data-animate="stagger-cards"] > * {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .hero-logo-enter,
+  .hero-copy-enter,
+  .reveal {
+    animation: none !important;
     opacity: 1 !important;
     transform: none !important;
-    visibility: visible !important;
-  }
-  
-  a, button, .hover-lift, header {
     transition: none !important;
-    transform: none !important;
   }
 }
-
-/* --- EFEITOS DISRUPTIVOS ADICIONAIS --- */
-
-/* Gradiente Mesh animado em segundo plano */
-.mesh-gradient-bg {
-  background-color: #fafafa;
-  background-image: 
-    radial-gradient(at 10% 20%, rgba(30, 136, 229, 0.08) 0px, transparent 50%),
-    radial-gradient(at 90% 10%, rgba(67, 160, 71, 0.06) 0px, transparent 50%),
-    radial-gradient(at 90% 90%, rgba(229, 57, 53, 0.05) 0px, transparent 50%),
-    radial-gradient(at 10% 80%, rgba(253, 216, 53, 0.06) 0px, transparent 50%);
-  background-size: 160% 160%;
-  animation: meshAnim 15s ease infinite alternate;
-}
-
-@keyframes meshAnim {
-  0% { background-position: 0% 0%; }
-  50% { background-position: 50% 100%; }
-  100% { background-position: 100% 0%; }
-}
-
-/* Ocultar o cursor do sistema em desktops para habilitar o CustomCursor */
-@media (min-width: 769px) {
-  html.js {
-    cursor: none !important;
-  }
-  html.js body,
-  html.js a, 
-  html.js button, 
-  html.js input, 
-  html.js textarea, 
-  html.js select, 
-  html.js [role="button"],
-  html.js [data-cursor] {
-    cursor: none !important;
-  }
-}
-
-/* Layout para o Scroll Horizontal com Pinning */
-.horizontal-scroll-container {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-}
-
-.horizontal-scroll-wrapper {
-  display: flex;
-  flex-wrap: nowrap;
-  height: 100%;
-  will-change: transform;
-}
-
-.horizontal-panel {
-  width: 100vw;
-  height: 100vh;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  position: relative;
-}
-
-/* Suporte para rotações e perspectiva 3D */
-[data-animate="tilt"] {
-  transform-style: preserve-3d;
-  will-change: transform;
-}
-
-.preserve-3d-child {
-  transform: translateZ(50px);
-}
-
-
-
-

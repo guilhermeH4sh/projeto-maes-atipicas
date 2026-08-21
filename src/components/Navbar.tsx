@@ -2,44 +2,37 @@
 
 import React, { useState, useEffect } from "react";
 import Logo from "./icons/Logo";
+import BrandRibbon from "./BrandRibbon";
 
 export default function Navbar() {
-  // Controle de tamanho de fonte de acessibilidade (valores em %)
   const [fontScale, setFontScale] = useState(100);
-  // Estado para ativação do modo de Alto Contraste
   const [highContrast, setHighContrast] = useState(false);
-  // Visibilidade do menu hamburguer em dispositivos móveis
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  // Seção da landing page atualmente visível na tela (para destacar o link ativo)
   const [activeSection, setActiveSection] = useState("inicio");
 
-  /**
-   * Sincroniza as preferências de acessibilidade do usuário (fonte e contraste)
-   * que foram persistidas anteriormente no localStorage do navegador.
-   */
   useEffect(() => {
     const savedScale = localStorage.getItem("maes-atipicas-font-scale");
     const savedContrast = localStorage.getItem("maes-atipicas-high-contrast") === "true";
 
-    setTimeout(() => {
-      if (savedScale) {
-        const scale = parseInt(savedScale, 10);
-        setFontScale(scale);
-        document.documentElement.style.fontSize = `${scale}%`;
+    if (savedScale) {
+      const scale = parseInt(savedScale, 10);
+      if (!Number.isNaN(scale)) {
+        queueMicrotask(() => {
+          setFontScale(scale);
+          document.documentElement.style.fontSize = `${scale}%`;
+        });
       }
-      if (savedContrast) {
+    }
+    if (savedContrast) {
+      queueMicrotask(() => {
         setHighContrast(true);
         document.documentElement.classList.add("high-contrast");
-      }
-    }, 0);
+      });
+    }
   }, []);
 
-  /**
-   * Registra observers de interseção para monitorar a visibilidade das seções
-   * e destacar o link ativo de navegação de forma eficiente e sem reflow.
-   */
   useEffect(() => {
-    const sections = ["inicio", "pilares", "conteudos", "mural", "faq", "contato"];
+    const sections = ["inicio", "pilares", "conteudos", "mural", "faq", "ajuda", "contato"];
     const observers: { observer: IntersectionObserver; el: HTMLElement }[] = [];
 
     sections.forEach((section) => {
@@ -51,7 +44,7 @@ export default function Navbar() {
               setActiveSection(section);
             }
           },
-          { rootMargin: "-20% 0px -65% 0px" } // Gatilho para a parte central superior do viewport
+          { rootMargin: "-20% 0px -65% 0px" }
         );
         observer.observe(el);
         observers.push({ observer, el });
@@ -88,9 +81,10 @@ export default function Navbar() {
     { name: "Início", hash: "#inicio", id: "inicio" },
     { name: "Pilares", hash: "#pilares", id: "pilares" },
     { name: "Guias", hash: "#conteudos", id: "conteudos" },
-    { name: "Mural & TV", hash: "#mural", id: "mural" },
+    { name: "Mural", hash: "#mural", id: "mural" },
     { name: "FAQ", hash: "#faq", id: "faq" },
-    { name: "Contato", hash: "#contato", id: "contato" }
+    { name: "Ajuda", hash: "#ajuda", id: "ajuda" },
+    { name: "Contato", hash: "#contato", id: "contato" },
   ];
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, hash: string) => {
@@ -102,71 +96,76 @@ export default function Navbar() {
     }
   };
 
+  const a11yBtn =
+    "inline-flex items-center justify-center min-h-12 min-w-12 px-3 rounded-lg hover:bg-white/10 hover:text-white transition-colors font-bold";
+
   return (
-    <header className="w-full flex flex-col z-50 sticky top-0 bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-100 transition-all duration-300">
-      {/* 1. Barra de Acessibilidade Superior (Clean & Discreta) */}
-      <div className="w-full bg-slate-900 text-slate-300 py-1.5 text-xs">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <span className="font-semibold text-slate-400">Acessibilidade:</span>
-            <button 
+    <header className="w-full flex flex-col z-50 sticky top-0 bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-100">
+      <BrandRibbon />
+
+      <div className="w-full bg-slate-900 text-slate-200 text-sm">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between min-h-12">
+          <div className="flex items-center gap-1">
+            <span className="font-semibold text-slate-400 mr-2 hidden sm:inline">
+              Acessibilidade
+            </span>
+            <button
+              type="button"
               onClick={() => changeFontScale(10)}
-              className="hover:text-white transition-colors cursor-pointer font-bold px-1"
+              className={a11yBtn}
               aria-label="Aumentar texto"
             >
               A+
             </button>
-            <button 
+            <button
+              type="button"
               onClick={() => changeFontScale(-10)}
-              className="hover:text-white transition-colors cursor-pointer font-bold px-1"
+              className={a11yBtn}
               aria-label="Diminuir texto"
             >
               A-
             </button>
-            <button 
+            <button
+              type="button"
               onClick={toggleHighContrast}
-              className="hover:text-white transition-colors cursor-pointer font-bold px-1 flex items-center gap-1"
+              className={a11yBtn}
+              aria-pressed={highContrast}
               aria-label="Alternar alto contraste"
             >
-              <span>◐</span> Contraste
+              Contraste
             </button>
           </div>
-          <div className="hidden sm:flex items-center gap-4 text-slate-400">
-            <span>Universidade do Cuidado</span>
-            <span>•</span>
-            <span>Apoio Inclusivo</span>
-          </div>
+          <p className="hidden sm:block text-slate-400 text-sm">
+            Universidade do Cuidado · Apoio inclusivo
+          </p>
         </div>
       </div>
 
-      {/* 2. Menu Principal (Estilo Nuvemshop) */}
-      <div className="w-full py-4">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          {/* Logo e Nome da Marca */}
-          <a 
-            href="#inicio" 
-            onClick={(e) => handleLinkClick(e, "#inicio")} 
-            className="flex items-center gap-3 group focus:outline-none"
+      <div className="w-full py-3">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+          <a
+            href="#inicio"
+            onClick={(e) => handleLinkClick(e, "#inicio")}
+            className="flex items-center gap-3 group rounded-xl"
           >
-            <Logo size={42} className="transition-transform group-hover:scale-105 duration-300" />
+            <Logo size={44} className="transition-transform group-hover:scale-105 duration-300" />
             <div className="flex flex-col">
-              <span className="text-xl font-black tracking-tight text-slate-900 leading-none">
+              <span className="text-lg sm:text-xl font-black tracking-tight text-slate-900 leading-none">
                 Mães Atípicas
               </span>
-              <span className="text-[9px] font-bold text-brand-blue uppercase tracking-widest mt-1">
+              <span className="text-xs font-bold text-brand-blue uppercase tracking-wider mt-1">
                 Portal de Acolhimento
               </span>
             </div>
           </a>
 
-          {/* Links para Desktop */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden lg:flex items-center gap-5" aria-label="Seções da página">
             {navLinks.map((link) => (
               <a
                 key={link.hash}
                 href={link.hash}
                 onClick={(e) => handleLinkClick(e, link.hash)}
-                className={`text-sm font-semibold tracking-wide transition-all py-1 border-b-2 ${
+                className={`text-sm font-semibold tracking-wide py-3 border-b-2 ${
                   activeSection === link.id
                     ? "border-brand-blue text-brand-blue"
                     : "border-transparent text-slate-600 hover:text-slate-900"
@@ -177,58 +176,46 @@ export default function Navbar() {
             ))}
           </nav>
 
-          {/* Botão de Destaque CTA (Estilo Nuvemshop) */}
-          <div className="hidden md:block">
+          <div className="hidden lg:block">
             <a
               href="#contato"
               onClick={(e) => handleLinkClick(e, "#contato")}
-              className="inline-flex items-center justify-center px-5 py-2.5 rounded-full text-xs font-bold text-white bg-brand-blue hover:bg-brand-blue-hover shadow-sm transition-all transform hover:-translate-y-0.5 hover:shadow-md cursor-pointer"
+              className="inline-flex items-center justify-center min-h-12 px-6 rounded-full text-sm font-bold text-white bg-brand-blue hover:bg-brand-blue-hover shadow-sm"
             >
               Fale Conosco
             </a>
           </div>
 
-          {/* Hamburguer Mobile */}
           <button
+            type="button"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 text-slate-600 hover:text-slate-950 focus:outline-none cursor-pointer"
-            aria-label="Abrir menu"
+            className="lg:hidden inline-flex items-center justify-center min-h-12 min-w-12 rounded-xl text-slate-700 hover:bg-slate-100"
+            aria-label={isMobileMenuOpen ? "Fechar menu" : "Abrir menu"}
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="menu-mobile"
           >
-            <svg
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
+            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
               {isMobileMenuOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               )}
             </svg>
           </button>
         </div>
       </div>
 
-      {/* Menu Mobile */}
       {isMobileMenuOpen && (
-        <div className="md:hidden w-full bg-white border-t border-slate-100 py-4 px-6 flex flex-col gap-4 animate-fade-in shadow-inner">
+        <div
+          id="menu-mobile"
+          className="lg:hidden w-full bg-white border-t border-slate-100 py-4 px-6 flex flex-col gap-2 shadow-inner"
+        >
           {navLinks.map((link) => (
             <a
               key={link.hash}
               href={link.hash}
               onClick={(e) => handleLinkClick(e, link.hash)}
-              className={`text-base font-bold py-2 border-l-4 pl-3 ${
+              className={`text-base font-bold min-h-12 flex items-center border-l-4 pl-3 rounded-r-lg ${
                 activeSection === link.id
                   ? "border-brand-blue text-brand-blue bg-slate-50"
                   : "border-transparent text-slate-700 hover:text-slate-900"
@@ -240,7 +227,7 @@ export default function Navbar() {
           <a
             href="#contato"
             onClick={(e) => handleLinkClick(e, "#contato")}
-            className="w-full text-center py-3 rounded-xl text-sm font-bold text-white bg-brand-blue hover:bg-brand-blue-hover shadow-sm transition-all cursor-pointer mt-2"
+            className="w-full text-center min-h-12 flex items-center justify-center rounded-xl text-sm font-bold text-white bg-brand-blue hover:bg-brand-blue-hover mt-2"
           >
             Fale Conosco
           </a>

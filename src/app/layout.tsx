@@ -1,23 +1,17 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Outfit } from "next/font/google";
 import "./globals.css";
-import SmoothScroll from "@/components/SmoothScroll";
-import Preloader from "@/components/Preloader";
-import CustomCursor from "@/components/CustomCursor";
+import SkipLink from "@/components/SkipLink";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const outfit = Outfit({
+  variable: "--font-outfit",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Apoio para Mães Atípicas | Plataforma Educacional",
-  description: "Apoio especializado e acolhimento para mães de crianças atípicas. Acesse conteúdos confiáveis sobre TEA, TDAH, Síndrome de Down e tenha orientação de nossa IA 24 horas por dia.",
+  title: "Mães Atípicas | Portal de Acolhimento",
+  description:
+    "Espaço seguro de acolhimento e orientação para mães e cuidadores de crianças com TEA, TDAH, Síndrome de Down e outras neurodiversidades. Direitos, educação inclusiva e saúde mental em linguagem clara.",
   icons: {
     icon: "/icon.png",
     shortcut: "/icon.png",
@@ -31,25 +25,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="pt-BR"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `document.documentElement.classList.add('js')`,
-          }}
-        />
-      </head>
-      <body className="min-h-full flex flex-col">
-        <SmoothScroll>
-          <Preloader />
-          <CustomCursor />
-          {children}
-        </SmoothScroll>
+    <html lang="pt-BR" className={`${outfit.variable} h-full antialiased`}>
+      <body className="min-h-full flex flex-col font-sans">
+        <SkipLink />
+        {children}
       </body>
     </html>
   );
 }
-
