@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Logo from "./icons/Logo";
 import BrandRibbon from "./BrandRibbon";
+import { scrollToHash } from "@/lib/scroll";
 
 export default function Navbar() {
   const [fontScale, setFontScale] = useState(100);
@@ -90,10 +91,7 @@ export default function Navbar() {
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, hash: string) => {
     e.preventDefault();
     setIsMobileMenuOpen(false);
-    const targetEl = document.querySelector(hash);
-    if (targetEl) {
-      targetEl.scrollIntoView({ behavior: "smooth" });
-    }
+    scrollToHash(hash);
   };
 
   const a11yBtn =

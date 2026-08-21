@@ -3,18 +3,12 @@
 import React from "react";
 import Logo from "./icons/Logo";
 import BrandRibbon from "./BrandRibbon";
+import { scrollToHash } from "@/lib/scroll";
 
 export default function Footer() {
-  /**
-   * Intercepta o clique nos links âncora do rodapé para realizar 
-   * uma rolagem suave (smooth scroll) até o elemento correspondente.
-   */
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, hash: string) => {
     e.preventDefault();
-    const targetEl = document.querySelector(hash);
-    if (targetEl) {
-      targetEl.scrollIntoView({ behavior: "smooth" });
-    }
+    scrollToHash(hash);
   };
 
   return (
