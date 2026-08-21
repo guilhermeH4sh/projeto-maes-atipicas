@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 
 type ContentModalProps = {
   title: string;
@@ -17,7 +17,13 @@ export default function ContentModal({
   onClose,
   children,
 }: ContentModalProps) {
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const previouslyFocused = useRef<HTMLElement | null>(null);
+
   useEffect(() => {
+    previouslyFocused.current = document.activeElement as HTMLElement | null;
+    closeRef.current?.focus();
+
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
     };
@@ -29,6 +35,7 @@ export default function ContentModal({
     return () => {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", onKeyDown);
+      previouslyFocused.current?.focus();
     };
   }, [onClose]);
 
@@ -56,6 +63,7 @@ export default function ContentModal({
             </h3>
           </div>
           <button
+            ref={closeRef}
             type="button"
             onClick={onClose}
             className="min-w-12 min-h-12 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center font-bold text-lg shrink-0"
